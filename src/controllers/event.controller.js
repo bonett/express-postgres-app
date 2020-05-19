@@ -9,11 +9,10 @@ const pool = new Pool({
 })
 
 const getEvents = async (req, res) => {
-    
+
     const response = await pool.query(`SELECT * FROM events`);
 
     try {
-        console.log(response.rows);
         res.status(200).json(response.rows);
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -22,14 +21,14 @@ const getEvents = async (req, res) => {
 
 const createEvent = async (req, res) => {
 
-    const { title, description, picture } = req.body;
-    pool.query(`INSERT INTO events (title, description, picture) VALUES ($1, $2, $3)`, [title, description, picture]);
+    const { title, description, picture, id_user } = req.body;
+    pool.query(`INSERT INTO events (title, description, picture, id_user) VALUES ($1, $2, $3, $4)`, [title, description, picture, id_user]);
 
     try {
         res.status(201).json({
             message: `Event ${title} created`,
             body: {
-                event: { title, description, picture }
+                event: { title, description, picture, id_user }
             }
         });
     } catch (err) {
@@ -56,14 +55,14 @@ const getEventById = async (req, res) => {
 const updateEvent = async (req, res) => {
 
     const eventId = req.params.id;
-    const { title, description, picture } = req.body;
-    const response = await pool.query('UPDATE events SET title = $1, description = $2, picture = $3 WHERE id_event = $4', [title, description, picture, eventId]);
+    const { title, description, picture, id_user } = req.body;
+    const response = await pool.query('UPDATE events SET title = $1, description = $2, picture = $3, id_user = $4 WHERE id_event = $5', [title, description, picture, id_user, eventId]);
 
     try {
         res.status(201).json({
             message: "Event updated succesfully",
             body: {
-                user: { name, email, country }
+                user: { title, description, picture, id_user }
             }
         });
     } catch (err) {
