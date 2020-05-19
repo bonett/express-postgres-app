@@ -12,7 +12,6 @@ const getUsers = async (req, res) => {
     const response = await pool.query(`SELECT * FROM users`);
 
     try {
-        console.log(response.rows);
         res.status(200).json(response.rows);
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -25,7 +24,7 @@ const createUser = async (req, res) => {
 
     try {
         res.status(201).json({
-            message: "User created succesfully",
+            message: `User ${name} created`,
             body: {
                 user: { name, email, country }
             }
@@ -33,17 +32,19 @@ const createUser = async (req, res) => {
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
-
-    res.send(`User ${name} created`);
 }
 
 const getUserById = async (req, res) => {
 
     const userId = req.params.id;
-    const response = await pool.query(`SELECT * FROM users WHERE id = ${userId}`);
+    const response = await pool.query(`SELECT * FROM users WHERE id_user = ${userId}`);
 
     try {
-        res.status(200).json(response.rows);
+        if (response.rows.length !== 0) {
+            res.status(200).json(response.rows);
+        } else {
+            res.status(400).json({ message: `Can't find user` });
+        }
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -53,10 +54,10 @@ const updateUser = async (req, res) => {
 
     const userId = req.params.id;
     const { name, email, country } = req.body;
-    const response = await pool.query('UPDATE users SET name = $1, email = $2, country = $3 WHERE id = $4', [name, email, country, userId]);
+    const response = await pool.query('UPDATE users SET name = $1, email = $2, country = $3 WHERE id_user = $4', [name, email, country, userId]);
 
     try {
-        res.status(200).json({
+        res.status(201).json({
             message: "User updated succesfully",
             body: {
                 user: { name, email, country }
@@ -70,10 +71,10 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
 
     const userId = req.params.id;
-    const response = await pool.query(`DELETE FROM users WHERE id = ${userId}`);
+    const response = await pool.query(`DELETE FROM users WHERE id_user = ${userId}`);
 
     try {
-        res.status(200).json(`User ${userId} deleted succesfully`);
+        res.status(201).json(`User ${userId} deleted succesfully`);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
