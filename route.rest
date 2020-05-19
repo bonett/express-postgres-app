@@ -1,0 +1,72 @@
+
+
+
+// users
+
+GET http://localhost:8080/users
+
+###
+GET http://localhost:8080/users/1
+
+###
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+	"name": "andres",
+	"email": "andres@gmail.com",
+	"country": "rusia",
+	"role": "owner"
+}
+
+###
+PUT http://localhost:8080/users/1
+Content-Type: application/json
+
+{
+	"name": "andres",
+	"email": "andres@gmail.com",
+	"country": "rusia",
+	"role": "owner"
+}
+
+###
+DELETE http://localhost:8080/users/1
+
+
+// events
+
+###
+GET http://localhost:8080/events
+
+###
+GET http://localhost:8080/events/2
+
+###
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+    "title": "Android Meet",
+    "description": "lorem ipsum details france",
+    "picture": "https://www.kindpng.com/picc/m/73-737324_abstract-submission-nutrition-congress-circle-meeting-icon-png.png"
+}
+
+###
+PUT http://localhost:8080/events/1
+Content-Type: application/json
+
+{
+    "title": "Android Meet",
+    "description": "lorem ipsum details france",
+    "picture": "https://www.kindpng.com/picc/m/73-737324_abstract-submission-nutrition-congress-circle-meeting-icon-png.png"
+}
+
+###
+DELETE http://localhost:8080/events/1
+
+
+// user_event
+
+###
+GET http://localhost:8080/user_event
