@@ -36,7 +36,53 @@ const createUser = async (req, res) => {
 
     res.send(`User ${name} created`);
 }
+
+const getUserById = async (req, res) => {
+
+    const userId = req.params.id;
+    const response = await pool.query(`SELECT * FROM users WHERE id = ${userId}`);
+
+    try {
+        res.status(200).json(response.rows);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+}
+
+const updateUser = async (req, res) => {
+
+    const userId = req.params.id;
+    const { name, email, country } = req.body;
+    const response = await pool.query('UPDATE users SET name = $1, email = $2, country = $3 WHERE id = $4', [name, email, country, userId]);
+
+    try {
+        res.status(200).json({
+            message: "User updated succesfully",
+            body: {
+                user: { name, email, country }
+            }
+        });
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+}
+
+const deleteUser = async (req, res) => {
+
+    const userId = req.params.id;
+    const response = await pool.query(`DELETE FROM users WHERE id = ${userId}`);
+
+    try {
+        res.status(200).json(`User ${userId} deleted succesfully`);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+}
+
 module.exports = {
     getUsers,
-    createUser
+    createUser,
+    getUserById,
+    updateUser,
+    deleteUser
 }
