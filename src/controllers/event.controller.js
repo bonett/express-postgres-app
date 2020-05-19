@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -9,11 +10,10 @@ const pool = new Pool({
 })
 
 const getEvents = async (req, res) => {
-    
+
     const response = await pool.query(`SELECT * FROM events`);
 
     try {
-        console.log(response.rows);
         res.status(200).json(response.rows);
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -22,14 +22,23 @@ const getEvents = async (req, res) => {
 
 const createEvent = async (req, res) => {
 
-    const { title, description, picture } = req.body;
-    pool.query(`INSERT INTO events (title, description, picture) VALUES ($1, $2, $3)`, [title, description, picture]);
+    const {
+        title,
+        description,
+        picture,
+        id_user,
+        latitude,
+        longitude,
+        latitude_delta,
+        longitude_delta } = req.body;
+
+    pool.query(`INSERT INTO events (title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`, [title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta]);
 
     try {
         res.status(201).json({
-            message: `Event ${title} created`,
+            message: `Event created succesfully`,
             body: {
-                event: { title, description, picture }
+                event: { title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta }
             }
         });
     } catch (err) {
@@ -43,10 +52,10 @@ const getEventById = async (req, res) => {
     const response = await pool.query(`SELECT * FROM events WHERE id_event = ${eventId}`);
 
     try {
-        if(response.rows.length !== 0){
+        if (response.rows.length !== 0) {
             res.status(200).json(response.rows);
         } else {
-            res.status(400).json({ message: `Can't find event` });    
+            res.status(400).json({ message: `Can't find event` });
         }
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -56,14 +65,22 @@ const getEventById = async (req, res) => {
 const updateEvent = async (req, res) => {
 
     const eventId = req.params.id;
-    const { title, description, picture } = req.body;
-    const response = await pool.query('UPDATE events SET title = $1, description = $2, picture = $3 WHERE id_event = $4', [title, description, picture, eventId]);
+    const { title,
+        description,
+        picture,
+        id_user,
+        latitude,
+        longitude,
+        latitude_delta,
+        longitude_delta  } = req.body;
+
+    const response = await pool.query('UPDATE events SET title = $1, description = $2, picture = $3, id_user = $4, latitude = $5, longitude = $6, latitude_delta = $7, longitude_delta = $8 WHERE id_event = $9', [title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta, eventId]);
 
     try {
         res.status(201).json({
-            message: "Event updated succesfully",
+            message: `Event updated succesfully`,
             body: {
-                user: { name, email, country }
+                event: { title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta }
             }
         });
     } catch (err) {

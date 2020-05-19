@@ -24,7 +24,7 @@ const createUser = async (req, res) => {
 
     try {
         res.status(201).json({
-            message: `User ${name} created`,
+            message: `User created succesfully`,
             body: {
                 user: { name, email, country }
             }
@@ -44,6 +44,22 @@ const getUserById = async (req, res) => {
             res.status(200).json(response.rows);
         } else {
             res.status(400).json({ message: `Can't find user` });
+        }
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+}
+
+const getUserEventsById = async (req, res) => {
+
+    const userId = req.params.id;
+    const response = await pool.query(`SELECT * FROM events WHERE id_user = ${userId}`);
+
+    try {
+        if (response.rows.length !== 0) {
+            res.status(200).json(response.rows);
+        } else {
+            res.status(400).json({ message: `Can't find events created` });
         }
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -85,5 +101,6 @@ module.exports = {
     createUser,
     getUserById,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUserEventsById
 }
