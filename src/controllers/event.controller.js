@@ -9,6 +9,7 @@ const pool = new Pool({
 })
 
 const getEvents = async (req, res) => {
+    
     const response = await pool.query(`SELECT * FROM events`);
 
     try {
@@ -20,9 +21,8 @@ const getEvents = async (req, res) => {
 }
 
 const createEvent = async (req, res) => {
-    const { title, description, picture } = req.body;
 
-    console.log(title, description, picture )
+    const { title, description, picture } = req.body;
     pool.query(`INSERT INTO events (title, description, picture) VALUES ($1, $2, $3)`, [title, description, picture]);
 
     try {
