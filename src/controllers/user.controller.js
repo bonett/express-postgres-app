@@ -1,34 +1,22 @@
+const dotenv = require('dotenv');
+dotenv.config();
+const jwt = require('jsonwebtoken');
 const { Pool } = require('pg');
 
 const pool = new Pool({
-    host: 'localhost',
-    user: 'wilfridobonett',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
     password: '',
-    database: 'restapi',
-    port: '5432'
-})
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT,
+});
 
 const getUsers = async (req, res) => {
+
     const response = await pool.query(`SELECT * FROM users`);
 
     try {
         res.status(200).json(response.rows);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-}
-
-const createUser = async (req, res) => {
-    const { name, email, country } = req.body;
-    pool.query(`INSERT INTO users (name, email, country) VALUES ($1, $2, $3)`, [name, email, country]);
-
-    try {
-        res.status(201).json({
-            message: `User created succesfully`,
-            body: {
-                user: { name, email, country }
-            }
-        });
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -69,14 +57,14 @@ const getUserEventsById = async (req, res) => {
 const updateUser = async (req, res) => {
 
     const userId = req.params.id;
-    const { name, email, country } = req.body;
-    const response = await pool.query('UPDATE users SET name = $1, email = $2, country = $3 WHERE id_user = $4', [name, email, country, userId]);
+    const { name, email, country, username, password } = req.body;
+    const response = await pool.query('UPDATE users SET name = $1, email = $2, country = $3, username= $4, password = $5 WHERE id_user = $6', [name, email, country, username, password, userId]);
 
     try {
         res.status(201).json({
             message: "User updated succesfully",
             body: {
-                user: { name, email, country }
+                user: { name, email, country, username, password }
             }
         });
     } catch (err) {
@@ -98,7 +86,6 @@ const deleteUser = async (req, res) => {
 
 module.exports = {
     getUsers,
-    createUser,
     getUserById,
     updateUser,
     deleteUser,

@@ -12,17 +12,6 @@ GET http://localhost:8080/users/1
 GET http://localhost:8080/userEvent/1
 
 ###
-POST http://localhost:8080/users
-Content-Type: application/json
-
-{
-	"name": "andres",
-	"email": "andres@gmail.com",
-	"country": "rusia",
-	"role": "owner"
-}
-
-###
 PUT http://localhost:8080/users/1
 Content-Type: application/json
 
@@ -34,20 +23,23 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/users/1
+DELETE http://localhost:8080/users/7
 
 
 // events
 
 ###
 GET http://localhost:8080/events
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTM2Nzc1LCJleHAiOjE1ODk5MzY4NzV9.cMw7D83EP1qIpZxN561nbMBofU59FK-sJXKN_7x4ysY
 
 ###
-GET http://localhost:8080/events/9
+GET http://localhost:8080/events/12
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTM2Nzc1LCJleHAiOjE1ODk5MzY4NzV9.cMw7D83EP1qIpZxN561nbMBofU59FK-sJXKN_7x4ysY
 
 ###
 POST http://localhost:8080/events
 Content-Type: application/json
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTMzMjk4LCJleHAiOjE1ODk5MzQ3Mzh9.6DKJ2n5aZXWvOqRsqX-tj4cNk2oAFNngtzIXWIcyLDY
 
 {
     "title": "Angular Meet",
@@ -63,6 +55,7 @@ Content-Type: application/json
 ###
 PUT http://localhost:8080/events/9
 Content-Type: application/json
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTMzMjk4LCJleHAiOjE1ODk5MzQ3Mzh9.6DKJ2n5aZXWvOqRsqX-tj4cNk2oAFNngtzIXWIcyLDY
 
 {
    "title": "Android Meet",
@@ -77,3 +70,40 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:8080/events/7
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTMzMjk4LCJleHAiOjE1ODk5MzQ3Mzh9.6DKJ2n5aZXWvOqRsqX-tj4cNk2oAFNngtzIXWIcyLDY
+
+
+
+###
+POST http://localhost:8080/auth/getToken
+Content-Type: application/json
+
+{
+    "email": "wilfrido@gmail.com",
+    "password": "123456"
+}
+
+###
+GET http://localhost:8080/auth/getToken
+
+###
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+	"name": "wilfrido",
+	"email": "wilfridobonett@gmail.com",
+	"country": "rusia",
+	"password": "123456",
+    "username": "wbonett"
+}
+
+###
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTMzMjk4LCJleHAiOjE1ODk5MzQ3Mzh9.6DKJ2n5aZXWvOqRsqX-tj4cNk2oAFNngtzIXWIcyLDY
+
+{
+	"email": "andres@gmail.com",
+    "password": "12345"
+}
