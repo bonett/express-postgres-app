@@ -23,6 +23,14 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:8080/userLogin
+Content-Type: application/json
+
+{
+	"email": "wilfrido@gmail.com"
+}
+
+###
 PUT http://localhost:8080/users/1
 Content-Type: application/json
 
@@ -41,13 +49,16 @@ DELETE http://localhost:8080/users/1
 
 ###
 GET http://localhost:8080/events
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTM0ODEyLCJleHAiOjE1ODk5MzQ5MTJ9.9D8f2aO51LEFlLPfq4ntyPqNoCIi-SGdogsViG2gscA
 
 ###
 GET http://localhost:8080/events/9
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTMzMjk4LCJleHAiOjE1ODk5MzQ3Mzh9.6DKJ2n5aZXWvOqRsqX-tj4cNk2oAFNngtzIXWIcyLDY
 
 ###
 POST http://localhost:8080/events
 Content-Type: application/json
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTMzMjk4LCJleHAiOjE1ODk5MzQ3Mzh9.6DKJ2n5aZXWvOqRsqX-tj4cNk2oAFNngtzIXWIcyLDY
 
 {
     "title": "Angular Meet",
@@ -63,6 +74,7 @@ Content-Type: application/json
 ###
 PUT http://localhost:8080/events/9
 Content-Type: application/json
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTMzMjk4LCJleHAiOjE1ODk5MzQ3Mzh9.6DKJ2n5aZXWvOqRsqX-tj4cNk2oAFNngtzIXWIcyLDY
 
 {
    "title": "Android Meet",
@@ -77,3 +89,15 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:8080/events/7
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTMzMjk4LCJleHAiOjE1ODk5MzQ3Mzh9.6DKJ2n5aZXWvOqRsqX-tj4cNk2oAFNngtzIXWIcyLDY
+
+
+
+###
+POST http://localhost:8080/authenticate
+Content-Type: application/json
+
+{
+    "email": "wilfrido@gmail.com",
+    "password": "123456"
+}
