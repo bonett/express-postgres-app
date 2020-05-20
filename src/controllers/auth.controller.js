@@ -1,8 +1,13 @@
 const dotenv = require('dotenv');
 dotenv.config();
-const config = require('./../../config');
 const jwt = require('jsonwebtoken');
 const { Pool } = require('pg');
+
+const express = require('express'),
+    config = require('./../../config'),
+    accesKey = express();
+
+accesKey.set('SECRET_KEY', config.SECRET_KEY);
 
 const pool = new Pool({
     host: process.env.DB_HOST,
@@ -12,25 +17,70 @@ const pool = new Pool({
     port: process.env.DB_PORT,
 });
 
-const authenticate = async (req, res) => {
-    const { email, password } = req.body;
+const getToken = async (req, res) => {
 
-    if (email === "wilfrido@gmail.com" && password === "123456") {
-        const payload = {
-            check: true
-        };
-        const token = jwt.sign(payload, config.SECRET_KEY, {
-            expiresIn: 100
+    const payload = {
+        check: true
+    };
+    const token = jwt.sign(payload, config.SECRET_KEY, {
+        expiresIn: 100
+    });
+    res.json({
+        mensaje: 'Granted',
+        token: token
+    });
+}
+
+const registerUser = async (req, res) => {
+    const { name, email, country } = req.body;
+    pool.query(`INSERT INTO users (name, email, country, username, password) VALUES ($1, $2, $3, $4, $5)`, [name, email, country, username, password]);
+
+    try {
+        res.status(201).json({
+            message: `User created succesfully`,
+            body: {
+                user: { name, email, country, username, password }
+            }
         });
-        res.json({
-            mensaje: 'Granted',
-            token: token
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+}
+
+const loginUser = async (req, res) => {
+
+    const { email, password } = req.body;
+    const token = req.headers['access-token'];
+    const response = await pool.query(`SELECT * FROM users WHERE email = ${email}`);
+
+    if (token) {
+        jwt.verify(token, accesKey.get('SECRET_KEY'), (err, decoded) => {
+            if (err) {
+                return res.json({ mensaje: 'Invalid Token' });
+            } else {
+                try {
+                    res.status(201).json({
+                        message: `Session granted`,
+                        body: {
+                            isAuthenticated: true
+                        }
+                    });
+                } catch (err) {
+                    res.status(400).json({ message: err.message });
+                }
+
+                req.decoded = decoded;
+            }
         });
     } else {
-        res.json({ mensaje: "Invalid credentials" })
+        res.send({
+            mensaje: 'Invalid Token'
+        });
     }
 }
 
 module.exports = {
-    authenticate
+    getToken,
+    registerUser,
+    loginUser
 }
