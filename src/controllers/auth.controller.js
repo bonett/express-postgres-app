@@ -32,18 +32,26 @@ const getToken = async (req, res) => {
 }
 
 const registerUser = async (req, res) => {
-    const { name, email, country } = req.body;
-    pool.query(`INSERT INTO users (name, email, country, username, password) VALUES ($1, $2, $3, $4, $5)`, [name, email, country, username, password]);
+    const { name, email, country, username, password } = req.body;
+    const response = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    const userData = response && response.rows;
 
-    try {
-        res.status(201).json({
-            message: `User created succesfully`,
-            body: {
-                user: { name, email, country, username, password }
-            }
-        });
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+    if (userData.length == 0) {
+
+        pool.query(`INSERT INTO users (name, email, country, username, password) VALUES ($1, $2, $3, $4, $5)`, [name, email, country, username, password]);
+
+        try {
+            res.status(201).json({
+                message: `User created succesfully`,
+                body: {
+                    user: { name, email, country, username }
+                }
+            });
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    } else {
+        res.status(400).json({ message: 'Email is already taken' });
     }
 }
 
@@ -51,7 +59,7 @@ const loginUser = async (req, res) => {
 
     const { email, password } = req.body;
     const token = req.headers['access-token'];
-    const response = await pool.query(`SELECT * FROM users WHERE email = ${email}`);
+    const response = await pool.query('SELECT * FROM users WHERE email = $1 && password = $2', [email, password]);
 
     if (token) {
         jwt.verify(token, accesKey.get('SECRET_KEY'), (err, decoded) => {
