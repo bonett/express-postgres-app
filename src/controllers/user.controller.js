@@ -57,14 +57,14 @@ const getUserEventsById = async (req, res) => {
 const updateUser = async (req, res) => {
 
     const userId = req.params.id;
-    const { name, email, country, username, password } = req.body;
-    const response = await pool.query('UPDATE users SET name = $1, email = $2, country = $3, username= $4, password = $5 WHERE id_user = $6', [name, email, country, username, password, userId]);
+    const { username, email, password } = req.body;
+    const response = await pool.query('UPDATE users SET username= $1, email = $2, password = $3 WHERE id_user = $4', [username, email, password, userId]);
 
     try {
         res.status(201).json({
             message: "User updated succesfully",
             body: {
-                user: { name, email, country, username, password }
+                user: { username,  email, password }
             }
         });
     } catch (err) {
