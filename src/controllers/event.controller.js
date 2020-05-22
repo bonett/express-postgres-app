@@ -20,7 +20,7 @@ const pool = new Pool({
 const getEvents = async (req, res) => {
 
     const token = req.headers['access-token'];
-    const response = await pool.query(`SELECT * FROM events`);
+    const response = await pool.query(`SELECT * FROM events ORDER BY at_created DESC`);
 
     if (token) {
         jwt.verify(token, accesKey.get('SECRET_KEY'), (err, decoded) => {
@@ -53,8 +53,10 @@ const createEvent = async (req, res) => {
         latitude,
         longitude,
         latitude_delta,
-        longitude_delta } = req.body;
+        longitude_delta
+    } = req.body;
 
+    const currentDate = new Date();
     const token = req.headers['access-token'];
 
     if (token) {
@@ -62,14 +64,14 @@ const createEvent = async (req, res) => {
             if (err) {
                 return res.json({ mensaje: 'Invalid Token' });
             } else {
-                pool.query(`INSERT INTO events (title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`, [title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta]);
+                pool.query(`INSERT INTO events (title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta, at_created) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`, [title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta, currentDate]);
 
                 try {
                     res.status(201).json({
                         message: `Event created succesfully`,
                         status: 'OK',
                         body: {
-                            event: { title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta }
+                            event: { title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta, currentDate }
                         }
                     });
                 } catch (err) {
@@ -121,7 +123,7 @@ const getEventById = async (req, res) => {
 const updateEvent = async (req, res) => {
 
     const eventId = req.params.id;
-    const { 
+    const {
         title,
         description,
         picture,
@@ -131,6 +133,7 @@ const updateEvent = async (req, res) => {
         latitude_delta,
         longitude_delta } = req.body;
 
+    const currentDate = new Date();
     const token = req.headers['access-token'];
 
     if (token) {
@@ -139,12 +142,12 @@ const updateEvent = async (req, res) => {
                 return res.json({ mensaje: 'Invalid Token' });
             } else {
                 try {
-                    pool.query('UPDATE events SET title = $1, description = $2, picture = $3, id_user = $4, latitude = $5, longitude = $6, latitude_delta = $7, longitude_delta = $8 WHERE id_event = $9', [title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta, eventId]);
+                    pool.query('UPDATE events SET title = $1, description = $2, picture = $3, id_user = $4, latitude = $5, longitude = $6, latitude_delta = $7, longitude_delta = $8 , at_created = $9 WHERE id_event = $10', [title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta, currentDate, eventId]);
                     res.status(201).json({
                         message: `Event updated succesfully`,
                         status: 'OK',
                         body: {
-                            event: { title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta }
+                            event: { title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta, currentDate }
                         }
                     });
                 } catch (err) {
