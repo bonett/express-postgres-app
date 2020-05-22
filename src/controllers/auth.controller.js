@@ -23,67 +23,57 @@ const getToken = async (req, res) => {
         check: true
     };
     const token = jwt.sign(payload, config.SECRET_KEY, {
-        expiresIn: 100
+        expiresIn: 54900
     });
     res.json({
-        mensaje: 'Granted',
+        message: 'Granted',
         token: token
     });
 }
 
 const registerUser = async (req, res) => {
-    const { name, email, country, username, password } = req.body;
-    const response = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-    const userData = response && response.rows;
 
-    if (userData.length == 0) {
+    const { username, email, password } = req.body;
+    const response = await pool.query('SELECT email FROM users WHERE email = $1', [email]);
+    const userData = response && response.rows[0];
+    const status = userData !== undefined;
+    if (!status) {
 
-        pool.query(`INSERT INTO users (name, email, country, username, password) VALUES ($1, $2, $3, $4, $5)`, [name, email, country, username, password]);
+        pool.query(`INSERT INTO users ( username, email, password) VALUES ($1, $2, $3)`, [username, email, password]);
 
         try {
             res.status(201).json({
                 message: `User created succesfully`,
+                status: 'OK',
                 body: {
-                    user: { name, email, country, username }
+                    user: { email, username }
                 }
             });
         } catch (err) {
             res.status(400).json({ message: err.message });
         }
     } else {
-        res.status(400).json({ message: 'Email is already taken' });
+        res.status(400).json({ message: 'Email is already taken', status: 'error' });
     }
 }
 
 const loginUser = async (req, res) => {
 
     const { email, password } = req.body;
-    const token = req.headers['access-token'];
-    const response = await pool.query('SELECT * FROM users WHERE email = $1 && password = $2', [email, password]);
-
-    if (token) {
-        jwt.verify(token, accesKey.get('SECRET_KEY'), (err, decoded) => {
-            if (err) {
-                return res.json({ mensaje: 'Invalid Token' });
-            } else {
-                try {
-                    res.status(201).json({
-                        message: `Session granted`,
-                        body: {
-                            isAuthenticated: true
-                        }
-                    });
-                } catch (err) {
-                    res.status(400).json({ message: err.message });
-                }
-
-                req.decoded = decoded;
-            }
-        });
-    } else {
-        res.send({
-            mensaje: 'Invalid Token'
-        });
+    const response = await pool.query('SELECT id_user FROM users WHERE email = $1 AND password = $2', [email, password]);
+    const status = response && response.rows[0];
+    
+    try {
+        if (status) {
+            res.status(201).json({
+                isAuthenticated: true,
+                id: status.id_user
+            });
+        } else {
+            res.json({ mensaje: 'You are not authorized' });
+        }
+    } catch (err) {
+        res.status(400).json({ message: err.message });
     }
 }
 

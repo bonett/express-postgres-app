@@ -16,49 +16,47 @@ PUT http://localhost:8080/users/1
 Content-Type: application/json
 
 {
-	"name": "andres",
-	"email": "andres@gmail.com",
-	"country": "rusia",
-	"role": "owner"
+	"username": "wbonett10",
+	"email": "wilfrido@gmail.com",
+	"password": "123456"
 }
 
 ###
-DELETE http://localhost:8080/users/7
+DELETE http://localhost:8080/users/22
 
 
 // events
 
 ###
 GET http://localhost:8080/events
-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTM2Nzc1LCJleHAiOjE1ODk5MzY4NzV9.cMw7D83EP1qIpZxN561nbMBofU59FK-sJXKN_7x4ysY
-
+access-toke: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTkwMDg3ODc0LCJleHAiOjE1OTAxNDI3NzR9.iY-pkm17VhTAvfFi3vv4GLJenpDK0UJKTta-3X29X-Q
 ###
 GET http://localhost:8080/events/12
-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTM2Nzc1LCJleHAiOjE1ODk5MzY4NzV9.cMw7D83EP1qIpZxN561nbMBofU59FK-sJXKN_7x4ysY
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTkwMDg3ODc0LCJleHAiOjE1OTAxNDI3NzR9.iY-pkm17VhTAvfFi3vv4GLJenpDK0UJKTta-3X29X-Q
 
 ###
 POST http://localhost:8080/events
 Content-Type: application/json
-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTMzMjk4LCJleHAiOjE1ODk5MzQ3Mzh9.6DKJ2n5aZXWvOqRsqX-tj4cNk2oAFNngtzIXWIcyLDY
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTkwMDcxNjg0LCJleHAiOjE1OTAxMjY1ODR9.M2pMLmmAb22jCU8R68rh0_hn_KYHEx1U9UWKqaV3UhY
 
 {
-    "title": "Angular Meet",
-    "description": "lorem ipsum details france",
+    "title": "Node Meet",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
     "picture": "https://www.kindpng.com/picc/m/73-737324_abstract-submission-nutrition-congress-circle-meeting-icon-png.png",
     "id_user": 1,
-    "latitude": "37.78825",
-    "longitude": "-122.4324",
-    "latitude_delta": "0.0922",
-    "longitude_delta": "0.0421"
+    "latitude": 27.7215,
+    "longitude": 85.32,
+    "latitude_delta": 0.09,
+    "longitude_delta": 0.0921
 }
 
 ###
 PUT http://localhost:8080/events/9
 Content-Type: application/json
-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTMzMjk4LCJleHAiOjE1ODk5MzQ3Mzh9.6DKJ2n5aZXWvOqRsqX-tj4cNk2oAFNngtzIXWIcyLDY
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTkwMDExNTUwLCJleHAiOjE1OTAwMTE2NTB9.VBTN6uxLsIlaIfqEGHTEvaNT8lL3F_r-tqk_Yfc9Ih0
 
 {
-   "title": "Android Meet",
+   "title": "Javascript Meet",
     "description": "lorem ipsum details france",
     "picture": "https://www.kindpng.com/picc/m/73-737324_abstract-submission-nutrition-congress-circle-meeting-icon-png.png",
     "id_user": 1,
@@ -75,15 +73,6 @@ access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxN
 
 
 ###
-POST http://localhost:8080/auth/getToken
-Content-Type: application/json
-
-{
-    "email": "wilfrido@gmail.com",
-    "password": "123456"
-}
-
-###
 GET http://localhost:8080/auth/getToken
 
 ###
@@ -91,19 +80,16 @@ POST http://localhost:8080/auth/register
 Content-Type: application/json
 
 {
-	"name": "wilfrido",
-	"email": "wilfridobonett@gmail.com",
-	"country": "rusia",
-	"password": "123456",
-    "username": "wbonett"
+    "username": "wbonett",
+	"email": "wilfrido@gmail.com",
+	"password": "123456"
 }
 
 ###
 POST http://localhost:8080/auth/login
 Content-Type: application/json
-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTMzMjk4LCJleHAiOjE1ODk5MzQ3Mzh9.6DKJ2n5aZXWvOqRsqX-tj4cNk2oAFNngtzIXWIcyLDY
 
 {
-	"email": "andres@gmail.com",
-    "password": "12345"
+	"email": "wilfrido@gmail.com",
+    "password": "123456"
 }
