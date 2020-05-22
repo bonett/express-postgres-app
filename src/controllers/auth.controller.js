@@ -60,36 +60,20 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
 
     const { email, password } = req.body;
-    const token = req.headers['access-token'];
     const response = await pool.query('SELECT id_user FROM users WHERE email = $1 AND password = $2', [email, password]);
     const status = response && response.rows[0];
     
-    if (token) {
-        jwt.verify(token, accesKey.get('SECRET_KEY'), (err, decoded) => {
-            if (err) {
-                return res.json({ mensaje: 'Invalid Token' });
-            } else {
-                try {
-                    if (status !== undefined) {
-                        res.status(201).json({
-                            isAuthenticated: true,
-                            id: status.id_user
-
-                        });
-                    } else {
-                        res.json({ mensaje: 'You are not authorized' });
-                    }
-                } catch (err) {
-                    res.status(400).json({ message: err.message });
-                }
-
-                req.decoded = decoded;
-            }
-        });
-    } else {
-        res.send({
-            mensaje: 'Invalid Token'
-        });
+    try {
+        if (status) {
+            res.status(201).json({
+                isAuthenticated: true,
+                id: status.id_user
+            });
+        } else {
+            res.json({ mensaje: 'You are not authorized' });
+        }
+    } catch (err) {
+        res.status(400).json({ message: err.message });
     }
 }
 

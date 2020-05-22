@@ -67,6 +67,7 @@ const createEvent = async (req, res) => {
                 try {
                     res.status(201).json({
                         message: `Event created succesfully`,
+                        status: 'OK',
                         body: {
                             event: { title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta }
                         }
@@ -120,7 +121,8 @@ const getEventById = async (req, res) => {
 const updateEvent = async (req, res) => {
 
     const eventId = req.params.id;
-    const { title,
+    const { 
+        title,
         description,
         picture,
         id_user,
@@ -140,6 +142,7 @@ const updateEvent = async (req, res) => {
                     pool.query('UPDATE events SET title = $1, description = $2, picture = $3, id_user = $4, latitude = $5, longitude = $6, latitude_delta = $7, longitude_delta = $8 WHERE id_event = $9', [title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta, eventId]);
                     res.status(201).json({
                         message: `Event updated succesfully`,
+                        status: 'OK',
                         body: {
                             event: { title, description, picture, id_user, latitude, longitude, latitude_delta, longitude_delta }
                         }
@@ -169,7 +172,10 @@ const deleteEvent = async (req, res) => {
             } else {
                 try {
                     pool.query(`DELETE FROM events WHERE id_event = ${eventId}`);
-                    res.status(201).json(`Event ${eventId} deleted succesfully`);
+                    res.status(201).json({
+                        message: `Event ${eventId} deleted succesfully`,
+                        status: 'OK'
+                    });
                 } catch (err) {
                     res.status(400).json({ message: err.message });
                 }
