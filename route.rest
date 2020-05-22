@@ -29,7 +29,7 @@ DELETE http://localhost:8080/users/22
 
 ###
 GET http://localhost:8080/events
-access-toke: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTkwMDg3ODc0LCJleHAiOjE1OTAxNDI3NzR9.iY-pkm17VhTAvfFi3vv4GLJenpDK0UJKTta-3X29X-Q
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTkwMTMzNTcwLCJleHAiOjE1OTAxODg0NzB9._jTdGzFy1-smJI6SmINHbPLHKOv4C4sOIOKuUj-N27o
 ###
 GET http://localhost:8080/events/12
 access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTkwMDg3ODc0LCJleHAiOjE1OTAxNDI3NzR9.iY-pkm17VhTAvfFi3vv4GLJenpDK0UJKTta-3X29X-Q
@@ -37,13 +37,13 @@ access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxN
 ###
 POST http://localhost:8080/events
 Content-Type: application/json
-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTkwMDcxNjg0LCJleHAiOjE1OTAxMjY1ODR9.M2pMLmmAb22jCU8R68rh0_hn_KYHEx1U9UWKqaV3UhY
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTkwMTMzNTcwLCJleHAiOjE1OTAxODg0NzB9._jTdGzFy1-smJI6SmINHbPLHKOv4C4sOIOKuUj-N27o
 
 {
     "title": "Node Meet",
     "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
     "picture": "https://www.kindpng.com/picc/m/73-737324_abstract-submission-nutrition-congress-circle-meeting-icon-png.png",
-    "id_user": 1,
+    "id_user": 26,
     "latitude": 27.7215,
     "longitude": 85.32,
     "latitude_delta": 0.09,
@@ -67,8 +67,8 @@ access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxN
 }
 
 ###
-DELETE http://localhost:8080/events/7
-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTg5OTMzMjk4LCJleHAiOjE1ODk5MzQ3Mzh9.6DKJ2n5aZXWvOqRsqX-tj4cNk2oAFNngtzIXWIcyLDY
+DELETE http://localhost:8080/events/65
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTkwMTMzNTcwLCJleHAiOjE1OTAxODg0NzB9._jTdGzFy1-smJI6SmINHbPLHKOv4C4sOIOKuUj-N27o
 
 
 
